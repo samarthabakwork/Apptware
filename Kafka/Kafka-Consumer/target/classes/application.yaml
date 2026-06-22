@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: Kafka-Consumer
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: telusko-group-new
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+
+    # Moving ALL custom serializer/deserializer mappings here ensures Spring
+    # distributes them globally across your factories.
+    properties:
+      spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      # Fix 1: Explicitly trust the incoming producer package path AND your consumer path
+      spring.json.trusted.packages: "com.producer.Kafka_Producer.model,com.consumer.Kafka_Consumer.model"
+
+      # Fix 2: Explicitly map the class token sent by the producer into your local entity class
+      spring.json.value.default.type: "com.consumer.Kafka_Consumer.model.Course"
+
+      spring.json.use.type.headers: false

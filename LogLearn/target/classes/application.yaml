@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: LogLearn
+
+#logging:
+#  level:
+#    com:
+#      example:
+#        LogLearn:
+#          service: TRACE
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: trace
